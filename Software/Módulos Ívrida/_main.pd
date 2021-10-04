@@ -1,0 +1,232 @@
+#N canvas 1358 -8 1920 1007 12;
+#X obj 559 77 cnv 15 300 900 empty empty empty 20 12 0 14 -33289 -1
+0;
+#X obj 387 528 cnv 15 240 144 empty empty Fx_3 70 12 0 24 -36313 -66577
+0;
+#X obj 459 348 cnv 15 300 144 empty empty Fx_1 70 12 0 24 -14845 -66577
+0;
+#X obj 727 403 cnv 15 230 194 empty empty Fx_2 70 12 0 24 -260097 -66577
+0;
+#X obj 639 629 cnv 15 210 200 empty empty Fx_4 70 12 0 24 -257985 -66577
+0;
+#X obj 642 669 fx_delay_st, f 19;
+#X obj 396 571 fx_pitchshifter;
+#X obj 612 78 cnv 15 200 100 empty empty empty 70 12 0 24 -254039 -66577
+0;
+#X obj 673 87 adc~ 1 2;
+#X obj 455 121 cnv 15 205 200 empty empty empty 40 20 0 20 -162280
+-1 0;
+#X obj 455 229 cnv 15 205 100 empty empty Compressor 40 80 0 20 -191407
+-1 0;
+#X obj 458 146 fx_noisegate;
+#X obj 487 238 fx_compressor;
+#X obj 511 848 cnv 15 300 150 empty empty empty 70 12 0 24 -254039
+-66577 0;
+#X obj 572 971 dac~ 1 2;
+#X obj 490 816 cnv 15 100 150 empty empty empty 70 12 0 24 -254039
+-66577 0;
+#X obj 626 932 *~, f 4;
+#X obj 650 905 adc~ 7;
+#X obj 594 895 *~;
+#X obj 572 932 *~;
+#X obj 457 121 r~ in1;
+#X obj 673 114 s~ in1;
+#X msg 742 879 1;
+#X obj 471 265 s~ nocomp;
+#X obj 596 868 r~ nocomp;
+#X obj 726 114 s~ in2;
+#X obj 966 23 cnv 15 320 400 empty empty Trill 125 180 0 14 -203904
+-1 0;
+#X obj 866 55 cnv 15 500 110 empty empty Acelerómetro 100 12 0 12
+-232576 -1 0;
+#X obj 1076 58 accelerometer-integration;
+#X obj 938 83 r~ x-axis;
+#X obj 1007 83 r~ y-axis;
+#X obj 1076 83 r~ z-axis;
+#X obj 1145 83 r~ swingVelocity;
+#X obj 1003 124 /~ 2;
+#X obj 1129 113 /~ 2;
+#X obj 1209 112 /~ 2;
+#X obj 888 123 *~ 20;
+#X obj 982 205 loadbang;
+#X obj 1063 317 s bela_setTrill;
+#X obj 1102 218 r bela_trillCreated;
+#X obj 1102 247 print bela_trillCreated;
+#X msg 982 285 new myhex 1 HEX;
+#X msg 1102 285 new myring 1 RING;
+#X obj 1026 370 route myring;
+#X obj 1137 369 route myhex;
+#X obj 1063 340 r bela_trill;
+#X obj 1027 402 cnv 15 200 100 empty empty Sinte 70 12 0 24 -254039
+-66577 0;
+#N canvas 2115 148 952 760 bar-square-synth 0;
+#X text 674 62 [<num_touches> <x> <y> <size>];
+#X obj 170 172 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 170 100 list split 1;
+#X obj 170 150 change;
+#X text 250 163 <<< this is going to turn 1 when you start touching
+the sensor and go back to 0 when you remove your fingers.;
+#X obj 169 197 select 0 1;
+#X obj 170 266 line~;
+#X msg 213 231 1 300;
+#X obj 321 407 mtof;
+#X obj 321 351 * 12;
+#X obj 321 377 + 48;
+#X obj 375 438 mtof;
+#X obj 171 603 *~;
+#X obj 322 289 spigot;
+#X obj 355 268 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X text 371 226 [<size>;
+#X text 449 241 Only allow large-ish touches to influence the pitch
+and cutoff;
+#X text 449 264 This help preventing pitch changes on release.;
+#X msg 169 231 0 500;
+#X text 49 99 [<num_touches>];
+#X text 415 383 [<x> <y>];
+#X obj 171 624 outlet~;
+#X obj 380 252 > 0.05;
+#X obj 321 203 list split 1;
+#X text 413 201 [<position> <size>];
+#X obj 571 103 list split 1;
+#X obj 608 209 unpack f f;
+#X obj 606 126 list split 2;
+#X obj 608 185 spigot;
+#X obj 641 164 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 666 148 > 0.05;
+#X obj 372 388 +;
+#X obj 439 440 + 0.2;
+#X obj 358 472 vcf~;
+#N canvas 0 22 451 390 oscillator 0;
+#X obj 48 44 inlet~;
+#X obj 48 125 phasor~;
+#X obj 118 125 phasor~;
+#X obj 48 146 *~ 0.5;
+#X obj 118 146 *~ 0.5;
+#X obj 83 184 +~;
+#X obj 83 273 outlet~;
+#X obj 118 105 *~ 1.005;
+#X text 156 176 two slightly detuned oscillators;
+#X connect 0 0 1 0;
+#X connect 0 0 7 0;
+#X connect 1 0 3 0;
+#X connect 2 0 4 0;
+#X connect 3 0 5 0;
+#X connect 4 0 5 1;
+#X connect 5 0 6 0;
+#X connect 7 0 2 0;
+#X restore 269 441 pd oscillator;
+#X obj 379 364 * 60;
+#X obj 441 461 * 40;
+#X obj 168 58 inlet ring;
+#X obj 573 62 inlet hex;
+#X text 508 477 synthesiser where bar controls amplitude and pitch
+of oscillator \, square x-axis controls cutoff freq of lowpass filter
+\, y-axis controls Q.;
+#X connect 1 0 5 0;
+#X connect 2 0 3 0;
+#X connect 2 1 23 0;
+#X connect 3 0 1 0;
+#X connect 5 0 18 0;
+#X connect 5 1 7 0;
+#X connect 6 0 12 0;
+#X connect 7 0 6 0;
+#X connect 8 0 34 0;
+#X connect 9 0 10 0;
+#X connect 10 0 8 0;
+#X connect 10 0 31 0;
+#X connect 11 0 33 1;
+#X connect 12 0 21 0;
+#X connect 13 0 9 0;
+#X connect 14 0 13 1;
+#X connect 18 0 6 0;
+#X connect 22 0 14 0;
+#X connect 23 0 13 0;
+#X connect 23 1 22 0;
+#X connect 25 1 27 0;
+#X connect 26 0 35 0;
+#X connect 26 1 32 0;
+#X connect 27 0 28 0;
+#X connect 27 1 30 0;
+#X connect 28 0 26 0;
+#X connect 29 0 28 1;
+#X connect 30 0 29 0;
+#X connect 31 0 11 0;
+#X connect 32 0 36 0;
+#X connect 33 1 12 1;
+#X connect 34 0 33 0;
+#X connect 35 0 31 1;
+#X connect 36 0 33 2;
+#X connect 37 0 2 0;
+#X connect 38 0 25 0;
+#X restore 1062 431 pd bar-square-synth;
+#X obj 944 117 /~ 2;
+#X obj 670 157 cnv 15 275 210 empty empty Eq 130 12 0 20 -99865 -1
+0;
+#X obj 681 191 fx_mixer2ch;
+#X obj 681 158 r~ nocomp;
+#X obj 1254 109 cnv 15 250 130 empty empty HC-SR04_(ultrasónico) 50
+12 0 12 -133184 -1 0;
+#X obj 1263 138 receive Sensor1;
+#X msg 1297 174 Sensor1 \$1;
+#X obj 1388 138 receive Sensor2;
+#X msg 1422 174 Sensor2 \$1;
+#X obj 1388 195 s u2;
+#X obj 1263 195 s u1;
+#X obj 1263 174 / 10;
+#X obj 1388 174 / 10;
+#X obj 1292 207 r u1;
+#X obj 1333 207 r u2;
+#X text 248 82 Jonathan Díaz \, 2021 violonceldiaz@gmail.com;
+#X obj 529 528 cnv 15 217 44 empty empty empty 70 12 0 24 -36313 -66577
+0;
+#X obj 689 562 cnv 15 268 44 empty empty empty 70 12 0 24 -260097 -66577
+0;
+#X obj 529 406 fx_phaser;
+#X obj 306 696 megaverb;
+#X obj 992 251 s load;
+#X obj 742 853 r load;
+#X connect 6 0 67 0;
+#X connect 6 1 67 1;
+#X connect 8 0 21 0;
+#X connect 8 1 25 0;
+#X connect 11 0 12 0;
+#X connect 12 0 23 0;
+#X connect 16 0 14 1;
+#X connect 17 0 19 1;
+#X connect 17 0 16 1;
+#X connect 19 0 14 0;
+#X connect 20 0 11 0;
+#X connect 22 0 18 1;
+#X connect 24 0 18 0;
+#X connect 29 0 48 0;
+#X connect 29 0 36 0;
+#X connect 30 0 33 0;
+#X connect 31 0 34 0;
+#X connect 32 0 35 0;
+#X connect 37 0 41 0;
+#X connect 37 0 42 0;
+#X connect 37 0 68 0;
+#X connect 39 0 40 0;
+#X connect 41 0 38 0;
+#X connect 42 0 38 0;
+#X connect 43 0 47 0;
+#X connect 44 0 47 1;
+#X connect 45 0 43 0;
+#X connect 45 0 44 0;
+#X connect 50 0 66 0;
+#X connect 50 1 66 0;
+#X connect 51 0 50 0;
+#X connect 53 0 54 0;
+#X connect 53 0 59 0;
+#X connect 55 0 56 0;
+#X connect 55 0 60 0;
+#X connect 59 0 58 0;
+#X connect 60 0 57 0;
+#X connect 66 0 6 0;
+#X connect 66 1 6 1;
+#X connect 67 0 19 0;
+#X connect 67 1 16 0;
+#X connect 69 0 22 0;
